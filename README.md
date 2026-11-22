@@ -8,7 +8,9 @@ A completed, CPU-based semester experiment comparing **ordinary least squares (O
 - `docs/VIVA.md`: short explanation, likely questions and honest answers.
 - `docs/RESULTS.md`: automatically generated numerical findings.
 - `docs/VERIFICATION.md`: what was checked and what the checks cannot establish.
+- `docs/AUDIT_FINDINGS.md`: weaknesses found, fixes applied and unchanged numerical conclusions.
 - `docs/REFERENCES.md`: verified background sources and their relevance.
+- `docs/PAPER_COMPARISON.md`: precise differences from the papers; no claimed numerical reproduction.
 - `figures/`: vector PDF and high-resolution PNG figures, including circuit and workflow.
 - `results/semester/`: original metrics, test predictions, inputs, measurement counts, seeds, configuration and provenance.
 
@@ -48,12 +50,13 @@ From the repository root:
 ```bash
 python -m pytest -q
 python scripts/check_results.py
+python scripts/deep_audit.py --deep-physics
 python scripts/run_study.py --output results/reproduction
 python scripts/make_figures.py --results results/reproduction --figures figures/reproduction
 python scripts/compare_runs.py results/semester results/reproduction
 ```
 
-The runner refuses to overwrite existing metrics. Use a fresh output directory for each rerun. It writes seeds, raw joint-outcome counts and the configuration before reporting any result. Exact numerical agreement is checked with a tolerance for floating-point library differences; the bundled checksum audit checks the original saved bytes.
+The command-line runner validates the configuration and refuses to write into any nonempty output directory, including incomplete runs. Use a fresh output directory for each rerun. It writes seeds, raw joint-outcome counts and the configuration before reporting any result. Exact numerical agreement is checked with a tolerance for floating-point library differences; the bundled checksum audit checks the original saved bytes. The independent deep audit uses NumPy linear algebra rather than the experiment's sklearn fitting helper, checks all prediction vectors and summaries, and can check all 1,120 inputs against PennyLane.
 
 To regenerate the checked-in figures and numerical findings from the original results:
 

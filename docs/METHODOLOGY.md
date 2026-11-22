@@ -34,6 +34,10 @@ Every input uses three settings, so a finite-shot condition costs 3*S*(64+32+128
 
 Unit tests check state normalization and PennyLane probability agreement, direct Pauli-operator expectations at 101 random inputs, joint single/pair consistency, empirical measurement variance, convergence to ideal features, training-only scaling, ridge's normalization and intercept, independent validation-grid selection including ties, the OLS solution against augmented least squares, and seed reproducibility. The result auditor checks source hashes, checksums, nonnegative counts, per-setting totals, reconstructed features, paired method keys and refits all 640 models from saved records. A second full run checks numerical reproducibility. See generated test XML, verification JSON and reproduction verification JSON for actual outcomes.
 
+## Independent audit extension
+
+The deeper audit uses separately implemented NumPy fits and checks every saved test vector, train/validation/test loss, coefficient norm, feature error, rank/condition diagnostic, summary mean/SD and paired comparison. It regenerates raw counts from seeds, checks complete condition/file sets and checks all recorded inputs against PennyLane. Configuration-driven plotting is tested end-to-end on changed seeds, split sizes, targets and budgets. See AUDIT_FINDINGS.md and PAPER_COMPARISON.md for the corrections and interpretation boundaries.
+
 ## Limits
 
 Small synthetic tasks, one fixed circuit, one split size and five independent datasets limit generalization. The ridge grid is finite and validation estimates can be noisy. There is no adaptive acquisition, error mitigation, hardware noise, learned circuit or classical-versus-quantum advantage comparison. Small differences should not be described as significant. A larger circuit or additional baselines is future work, not a completed result.

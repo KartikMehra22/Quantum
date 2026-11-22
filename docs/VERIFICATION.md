@@ -2,7 +2,9 @@
 
 This file describes checks actually performed on 22 November 2026. Passing checks reduce known implementation risks; they do not prove that all possible errors are absent or that a scientific claim generalizes.
 
-## Automated scientific checks: 8 passed
+## Automated checks: 25 passed after the deeper audit
+
+The original eight scientific tests below are retained. The expanded suite adds checks of duplicate result rejection, dataset-level weighting, known full-rank and rank-deficient linear solutions using the independent verifier, ten invalid configuration cases, default condition coverage, protection of partial outputs, and a full alternate-configuration run/plot/audit.
 
 1. **Independent circuit implementation:** normalized states and nonnegative, normalized Born probabilities; agreement with an independently expressed PennyLane circuit at five inputs, absolute tolerance 1e-13.
 2. **Correlated records:** a known correlated distribution has identical single-qubit estimates and a deterministic +1 pair estimate; its empirical single-observable variance agrees with the independent-shot prediction within a stated tolerance.
@@ -33,6 +35,12 @@ The machine-readable outcome is `results/semester/verification.json`.
 A fresh full execution using the same fixed configuration reproduced all 640 metric rows and all 100 raw input/label/acquisition arrays. The maximum absolute difference in numerical metrics in the original environment was 0.0. Across different numerical-library platforms, the comparison script permits small floating-point tolerances. Timestamps and elapsed time are not expected to reproduce.
 
 The machine-readable outcome is `results/semester/reproduction_verification.json`. The second run itself is excluded from Git to avoid duplicating data; it can be regenerated using the README commands.
+
+## Independent deep audit: passed
+
+`python scripts/deep_audit.py --deep-physics` additionally checks all 1,120 recorded inputs against PennyLane; independently reconstructs 640 OLS/Ridge fits using NumPy least squares and regularized solves rather than the training helper; verifies all 640 saved test prediction vectors, train/validation/test losses, coefficient norms, rank/condition diagnostics, 32 summary groups and 16 paired comparisons; regenerates all 75 joint-count acquisitions from their seeds; checks the full condition/file key sets and the shared-resource ledger. See `results/semester/deep_audit.json`.
+
+The audit found weak verification coverage and hard-coded plotting assumptions, not a changed experimental conclusion. Plotting now reads the recorded seeds, split boundary, tasks and budgets. Input/output guards preserve incomplete runs and reject unsupported settings. The summary uncertainty description now remains correct for different repetition counts. A fresh run with these changes matches the original committed baseline numerically; the baseline remains available at Git commit `9414b8b`.
 
 ## Experimental safeguards
 

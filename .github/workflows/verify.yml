@@ -12,5 +12,6 @@ jobs:
       - run: python -m pip install -r requirements.txt
       - run: python -m pytest -q
       - run: python scripts/check_results.py
+      - run: python scripts/deep_audit.py --deep-physics
       - run: python scripts/run_study.py --output results/ci_reproduction
       - run: python scripts/compare_runs.py results/semester results/ci_reproduction

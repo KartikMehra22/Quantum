@@ -36,7 +36,7 @@ Positive relative reduction means lower MSE for Ridge; negative means Ridge was 
 
 - 640 fitted models: 600 finite-shot and 40 exact references, not 640 independent datasets.
 - 75 unique acquisitions; 11,289,600 simulated executions shared across both models, targets, label conditions and tuning candidates.
-- Main simulation/fit runtime 1.22 seconds in the recorded environment, excluding setup, tests, figures and documentation; not a QPU runtime estimate.
+- Main simulation/fit runtime 0.97 seconds in the recorded environment, excluding setup, tests, figures and documentation; not a QPU runtime estimate.
 - See verification.json and reproduction_verification.json for the independent reconstruction and fresh-run comparison.
 
 ## Interpretation
