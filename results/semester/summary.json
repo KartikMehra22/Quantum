@@ -675,5 +675,5 @@
       "n_data_seeds": 5
     }
   ],
-  "uncertainty": "SD over five dataset-level means after averaging measurement repetitions. Descriptive, not confidence intervals or independent 25-run hypothesis tests."
+  "uncertainty": "Sample SD over dataset-level means after averaging acquisition repetitions. Descriptive, not confidence intervals; acquisitions sharing a dataset are not independent datasets."
 }

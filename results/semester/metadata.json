@@ -1,6 +1,6 @@
 {
-  "completed_utc": "2026-11-22T15:38:57.668233+00:00",
-  "runtime_seconds": 1.2157457919965964,
+  "completed_utc": "2026-11-22T16:04:24.049276+00:00",
+  "runtime_seconds": 0.9721419580018846,
   "python": "3.12.14",
   "platform": "macOS-27.2.1-arm64-arm-64bit",
   "versions": {
@@ -13,7 +13,7 @@
   "config_sha256": "2c1d0ebafce315b965f9d47832a99abf39aff6ced3e719b547fce13584ca7f7f",
   "source_sha256": {
     "__init__.py": "b882c029704673bdea2170478880ddf2192fa2068d220c5c95e3d92eae19e40a",
-    "analysis.py": "9f37d708e9817e4a987e6f5d0f3834e9ef22eb82112fad4060d72ffc8f69ab39",
+    "analysis.py": "0d19f26aff60150793a645f26a8206549dacdcabd16b87c1ff00505ce4aa1d46",
     "experiment.py": "727c7dbb3c1b0971163ce09b1991c7e31a99aa9f61801626c3c87815522a2ce4",
     "models.py": "fa76415aae5a9a5ec3b8c21092cf438de0779402569bdf70b1b6196e3cf40b4b",
     "quantum.py": "6413926de3d39a434dd1dc79621efcf3c8d02b5b2633dfb63ed78e73305a1a00"

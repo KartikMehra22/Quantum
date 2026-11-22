@@ -1,0 +1,11 @@
+{
+  "status": "passed",
+  "independent_numpy_fits": 640,
+  "prediction_vectors_checked": 640,
+  "summary_groups_checked": 32,
+  "raw_seed_reconstructions": 75,
+  "paired_comparisons_checked": 16,
+  "physics_inputs_checked_with_pennylane": 1120,
+  "unique_simulated_shots": 11289600,
+  "warning": "Numerical checks do not establish general scientific validity, significance, or paper reproduction."
+}

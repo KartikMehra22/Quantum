@@ -64,7 +64,7 @@ def summarise(result_dir):
                                         n_data_seeds=len(values)))
     write_csv(result_dir / "paired_comparisons.csv", comparisons)
     payload = dict(summary=summaries, paired_comparisons=comparisons,
-                   uncertainty="SD over five dataset-level means after averaging measurement repetitions. Descriptive, not confidence intervals or independent 25-run hypothesis tests.")
+                   uncertainty="Sample SD over dataset-level means after averaging acquisition repetitions. Descriptive, not confidence intervals; acquisitions sharing a dataset are not independent datasets.")
     (result_dir / "summary.json").write_text(json.dumps(payload, indent=2) + "\n")
     return payload
 

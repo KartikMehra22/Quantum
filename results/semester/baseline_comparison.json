@@ -1,0 +1,8 @@
+{
+  "status": "passed",
+  "rows_compared": 640,
+  "raw_files_compared": 100,
+  "prediction_vectors_compared": 640,
+  "max_absolute_metric_difference": 0.0,
+  "baseline_commit": "9414b8bf0d0722047fb95f2c2d5ded6519e67b9e"
+}
