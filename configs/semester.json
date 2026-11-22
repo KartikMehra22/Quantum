@@ -1,0 +1,20 @@
+{
+  "study_version": "1.0.0",
+  "description": "Primary clean-label study plus an explicitly separated noisy-label sensitivity check. Settings fixed before the main run.",
+  "qubits": 2,
+  "tasks": ["sine", "mixed_harmonics"],
+  "label_noise_stds": [0.0, 0.1],
+  "n_train": 64,
+  "n_validation": 32,
+  "n_test": 128,
+  "input_domain": [-3.141592653589793, 3.141592653589793],
+  "shots_per_setting": [32, 128, 512],
+  "data_seeds": [11, 22, 33, 44, 55],
+  "measurement_seeds": [101, 202, 303, 404, 505],
+  "ridge_lambdas": [0.000001, 0.00001, 0.0001, 0.001, 0.01, 0.1, 1.0, 10.0],
+  "features": ["X0", "X1", "X0X1", "Y0", "Y1", "Y0Y1", "Z0", "Z1", "Z0Z1"],
+  "measurement_settings": ["XX", "YY", "ZZ"],
+  "test_target": "noiseless latent function; train and validation labels receive the configured independent Gaussian noise",
+  "aggregation": "average acquisition repetitions within each data seed before calculating mean and sample standard deviation over the five data seeds"
+}
+

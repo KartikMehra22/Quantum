@@ -1,0 +1,6 @@
+# Preserve the exact bytes used by the recorded checksums on every platform.
+results/semester/** -text
+*.pdf binary
+*.png binary
+*.npz binary
+
