@@ -7,7 +7,7 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
-from deep_audit import unique_index, independent_summary, fit_numpy, expected_keys
+from deep_audit import unique_index, independent_summary, fit_numpy, expected_keys, check_float_values
 
 
 def test_duplicate_model_keys_are_rejected_even_when_row_count_is_correct():
@@ -41,3 +41,12 @@ def test_independent_ols_handles_rank_deficient_features():
     scaler,models=fit_readouts(x,y,x,y,[0.1])
     np.testing.assert_allclose(weights,models["OLS"][0].coef_,atol=1e-12)
     np.testing.assert_allclose(intercept,models["OLS"][0].intercept_,atol=1e-12)
+
+
+def test_recomputed_floats_allow_rounding_but_reject_material_changes():
+    original=np.array([-2.333762,0.0,0.004537,2.69])
+    check_float_values(original, original+4*np.finfo(float).eps)
+    with pytest.raises(AssertionError):
+        check_float_values(original, original+1e-6)
+    with pytest.raises(ValueError):
+        check_float_values(np.array([np.nan]),np.array([np.nan]))

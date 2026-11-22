@@ -2,9 +2,9 @@
 
 This file describes checks actually performed on 22 November 2026. Passing checks reduce known implementation risks; they do not prove that all possible errors are absent or that a scientific claim generalizes.
 
-## Automated checks: 25 passed after the deeper audit
+## Automated checks: 26 passed after the deeper audit
 
-The original eight scientific tests below are retained. The expanded suite adds checks of duplicate result rejection, dataset-level weighting, known full-rank and rank-deficient linear solutions using the independent verifier, ten invalid configuration cases, default condition coverage, protection of partial outputs, and a full alternate-configuration run/plot/audit.
+The original eight scientific tests below are retained. The expanded suite adds checks of duplicate result rejection, dataset-level weighting, known full-rank and rank-deficient linear solutions using the independent verifier, ten invalid configuration cases, default condition coverage, protection of partial outputs, a full alternate-configuration run/plot/audit, and appropriate floating-point portability tolerances that still reject meaningful changes.
 
 1. **Independent circuit implementation:** normalized states and nonnegative, normalized Born probabilities; agreement with an independently expressed PennyLane circuit at five inputs, absolute tolerance 1e-13.
 2. **Correlated records:** a known correlated distribution has identical single-qubit estimates and a deterministic +1 pair estimate; its empirical single-observable variance agrees with the independent-shot prediction within a stated tolerance.

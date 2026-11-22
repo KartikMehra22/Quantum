@@ -43,6 +43,18 @@ def expected_keys(config):
     return result
 
 
+def check_float_values(actual, expected):
+    """Allow tiny ARM/x86 rounding differences without relaxing data integrity.
+
+    Checksums validate saved bytes exactly. Recomputed floating-point arithmetic
+    is compared numerically because uniform scaling and trig may differ by ULPs.
+    """
+    actual, expected = np.asarray(actual), np.asarray(expected)
+    if actual.shape != expected.shape or not np.isfinite(actual).all() or not np.isfinite(expected).all():
+        raise ValueError("Floating-point records require matching shapes and finite values")
+    np.testing.assert_allclose(actual, expected, rtol=1e-13, atol=1e-14)
+
+
 def fit_numpy(train, labels, validation, val_labels, penalties, method):
     """Independent standardization and fit; never calls the training helper."""
     mean = np.mean(train, axis=0)
@@ -98,7 +110,7 @@ def audit(directory, deep_physics=False):
         with np.load(directory / "raw" / f"inputs_d{ds}.npz") as archive:
             x, probs, ideal = [archive[k].copy() for k in ["x", "probabilities", "ideal_features"]]
         expected_x = np.random.default_rng(np.random.SeedSequence([ds, 0])).uniform(*config["input_domain"], size=n)
-        np.testing.assert_array_equal(x, expected_x)
+        check_float_values(x, expected_x)
         if not np.isfinite(probs).all() or np.any(probs < 0) or probs.shape != (n, 3, 4):
             raise ValueError("Invalid Born probabilities")
         np.testing.assert_allclose(probs.sum(axis=-1), 1, atol=1e-14)
@@ -129,8 +141,8 @@ def audit(directory, deep_physics=False):
                 rng = np.random.default_rng(np.random.SeedSequence([ds, task_i, noise_i, 2]))
                 observed[:boundary] += rng.normal(0, noise, size=boundary)
                 with np.load(directory / "raw" / name) as archive:
-                    np.testing.assert_array_equal(archive["latent"], latent)
-                    np.testing.assert_array_equal(archive["observed"], observed)
+                    check_float_values(archive["latent"], latent)
+                    check_float_values(archive["observed"], observed)
     if {p.name for p in (directory / "raw").glob("*.npz")} != expected_files:
         raise ValueError("Raw file set has missing or extra files")
     for identifier, row in index.items():

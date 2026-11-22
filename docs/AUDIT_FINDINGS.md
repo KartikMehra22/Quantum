@@ -14,9 +14,11 @@ The numerical conclusions survive the deeper inspection. This is a two-method si
 6. **Uncertainty wording hard-coded five datasets.** It now describes dataset-level aggregation without assuming a fixed repetition count. This description-only change to the package is recorded by a fresh metadata/source manifest; the study design and numerical methods are unchanged.
 7. **An augmented minimum-norm OLS verifier would use a different intercept convention in underdetermined cases.** The independent implementation now centers X and y explicitly, with a test of rank-deficient features. The canonical study is full rank and its results were unaffected.
 
+8. **The new deep auditor initially demanded exact regenerated floating-point inputs across architectures.** Linux reported a maximum difference of 4.44e-16 from the saved macOS inputs. Recomputed floating inputs and labels now use rtol=1e-13 and atol=1e-14, with a test that rejects a 1e-6 change and nonfinite values. Saved-file hashes and integer outcome counts remain exact. No data or model calculations were changed by this portability fix.
+
 ## Additional evidence
 
-- 25 automated tests passed, including negative cases that must fail.
+- 26 automated tests passed, including negative cases that must fail.
 - PennyLane independently checked Born probabilities for all 1,120 recorded inputs across the three settings.
 - All 75 joint-count acquisitions regenerate from their seeds.
 - Both the original fitted-result audit and independent linear-algebra audit pass.
