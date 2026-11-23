@@ -1,6 +1,6 @@
 # Verification record and remaining limits
 
-This record describes the original two-method study and its 26-test audit. The combined project now has 41 tests; the four-method extension has separate evidence and is described in `EXTENSION_GUIDE.md` and `results/measurement_extension/verification.json`.
+This record describes the original two-method study and its 26-test audit. The current project has 54 tests, including the four-method extension and saved-model inference. The extension has separate evidence described in `EXTENSION_GUIDE.md` and `results/measurement_extension/verification.json`. The complete current technical check is `python scripts/verify_project.py`.
 
 This file describes checks actually performed on 22 November 2026. Passing checks reduce known implementation risks; they do not prove that all possible errors are absent or that a scientific claim generalizes.
 

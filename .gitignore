@@ -14,6 +14,8 @@ tmp/
 !/results/semester/
 !/results/tests.xml
 !/results/extension_tests.xml
+!/results/technical_tests.xml
+!/results/project_verification.json
 !/results/measurement_extension/
 /figures/reproduction/
 

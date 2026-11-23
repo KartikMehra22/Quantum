@@ -45,7 +45,7 @@ These are descriptive results without significance claims. Plausible limitations
 
 ## Verification
 
-- Combined suite: 41 tests, including expanded-record covariance equality, theoretical covariance in expectation, PSD/block structure, standardization, unpenalized intercept, gamma=0 Ridge equivalence, diagonal/full equality under diagonal noise, fresh-seed validation and a full alternate-configuration pipeline.
+- Scientific extension suite: 41 tests, including expanded-record covariance equality, theoretical covariance in expectation, PSD/block structure, standardization, unpenalized intercept, gamma=0 Ridge equivalence, diagonal/full equality under diagonal noise, fresh-seed validation and a full alternate-configuration pipeline. The current full suite has 54 tests after adding saved-model inference and the executable walkthrough.
 - Independent extension audit: reconstructs training covariances using explicitly expanded shots and refits candidates via augmented least squares instead of the production normal-equation solver.
 - All 5,120 readouts and 124,160 validation candidates checked; all stored weights, intercepts, scalers and predictions checked.
 - All 4,480 inputs checked against PennyLane; all 400 raw files checked and all 300 acquisitions regenerated from seeds.

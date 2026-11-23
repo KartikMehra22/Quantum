@@ -1,5 +1,21 @@
 # Finite-shot quantum feature regression
 
+## Technical completion and demonstration
+
+The implementation, two experimental studies, saved-model prediction and reproducibility tools are complete. The current suite has **54 passing tests**. No final paper or presentation is included in this technical handoff.
+
+With the environment active, start here:
+
+```bash
+python scripts/defense_demo.py --refit
+python scripts/predict.py --method FullCov --task sine --shots 32 --x -0.5 0.2 0.9
+python scripts/verify_project.py
+```
+
+The first command refits and checks all four readouts for one fixed recorded case. The second predicts at new inputs using a saved model and simulated feature measurements. The third runs the full suite, both independent scientific audits, fresh reproductions and inference demonstrations, then records the result in `results/project_verification.json`. Temporary reproductions are removed after comparison; canonical experiment data are preserved.
+
+See [technical completion and demo instructions](docs/TECHNICAL_COMPLETION.md) and [the four-method notebook](notebooks/02_measurement_aware_walkthrough.ipynb). New prediction inputs are restricted to the evaluated domain [-pi, pi]; this is not a deployment or quantum-advantage claim.
+
 ## Measurement-aware extension (23 November)
 
 The project now also implements **DiagonalCov** and **FullCov** readouts, using an empirical measurement-noise penalty in addition to ridge shrinkage. This extension was evaluated separately on **20 fresh datasets**, with five acquisitions per dataset and **32 validation candidates per regularized method**. The original two-method study below remains intact.
@@ -27,7 +43,7 @@ To regenerate the four comparison figures and the technical results note:
 python scripts/summarize_extension.py
 ```
 
-The combined suite has **41 passing tests**. The extension's independent audit checks 5,120 evaluated readouts, all 124,160 validation-candidate fits, 300 training-noise covariance estimates reconstructed from expanded shots, and 4,480 quantum inputs. This is a new implementation/evaluation for the project, not an invented covariance-regularization method. Paper drafting remains deferred.
+The original extension was checked with 41 tests; the current full suite has **54 tests**, including saved-model inference and walkthrough checks. The extension's independent audit checks 5,120 evaluated readouts, all 124,160 validation-candidate fits, 300 training-noise covariance estimates reconstructed from expanded shots, and 4,480 quantum inputs. This is a new implementation/evaluation for the project, not an invented covariance-regularization method. Paper drafting remains deferred.
 
 ## Original two-method semester baseline
 
