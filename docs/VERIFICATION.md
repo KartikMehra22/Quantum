@@ -1,5 +1,7 @@
 # Verification record and remaining limits
 
+This record describes the original two-method study and its 26-test audit. The combined project now has 41 tests; the four-method extension has separate evidence and is described in `EXTENSION_GUIDE.md` and `results/measurement_extension/verification.json`.
+
 This file describes checks actually performed on 22 November 2026. Passing checks reduce known implementation risks; they do not prove that all possible errors are absent or that a scientific claim generalizes.
 
 ## Automated checks: 26 passed after the deeper audit

@@ -1,0 +1,7 @@
+{
+  "status": "passed",
+  "readouts_compared": 5120,
+  "raw_files_compared": 400,
+  "fitted_model_arrays_compared": 5,
+  "max_absolute_metric_difference": 0.0
+}

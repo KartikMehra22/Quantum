@@ -1,0 +1,10 @@
+{
+  "status": "passed",
+  "independent_model_evaluations": 5120,
+  "validation_candidates_reconstructed": 124160,
+  "expanded_training_covariances_checked": 300,
+  "physics_inputs_checked": 4480,
+  "summary_groups_checked": 64,
+  "paired_contrasts_checked": 64,
+  "unique_simulated_shots": 45158400
+}

@@ -1,0 +1,10 @@
+{
+  "status": "passed",
+  "changed_configuration_fields": [
+    "aggregation"
+  ],
+  "scientific_parameters_changed": false,
+  "metric_rows_identical": 5120,
+  "fitted_arrays_identical": 5,
+  "reason": "Corrected inherited descriptive wording from five to twenty datasets; reran unchanged experiment before interpreting test scores."
+}

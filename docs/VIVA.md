@@ -1,5 +1,7 @@
 # Explaining the semester project
 
+The project now has a four-method extension. Use `EXTENSION_GUIDE.md` for the current pitch, method comparison and fresh-seed results. The material below explains the preserved original two-method baseline.
+
 ## A 45-second explanation
 
 Our project studies how limited quantum measurements affect regression. A fixed two-qubit circuit converts each input into nine measurable features. These features are estimated from 32, 128 or 512 shots per measurement setting. We compare ordinary linear regression and ridge regression using exactly the same data and measurement outcomes. Ridge limits coefficient magnitude, so we test whether it makes prediction more reliable. We also compare against exact simulator features. More shots reduced mean prediction error in our tested settings, while ridge gave small improvements in some cases and performed worse in others. This is a reproducible comparison of existing methods, not a new quantum algorithm.

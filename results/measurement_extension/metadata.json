@@ -1,0 +1,33 @@
+{
+  "completed_utc": "2026-11-23T12:31:26.853146+00:00",
+  "runtime_seconds": 14.25963966701238,
+  "initial_protocol_commit": "3962994",
+  "protocol_document_sha256": "049117bfb9a6e5082a9f0142da70591a28eba6c9d125acfa24a3a757bc4e1ed2",
+  "python": "3.12.14",
+  "platform": "macOS-27.2.1-arm64-arm-64bit",
+  "versions": {
+    "numpy": "2.3.5",
+    "scipy": "1.16.3",
+    "scikit-learn": "1.7.2",
+    "matplotlib": "3.10.7",
+    "pennylane": "0.43.1"
+  },
+  "source_sha256": {
+    "docs/EXTENSION_PROTOCOL.md": "049117bfb9a6e5082a9f0142da70591a28eba6c9d125acfa24a3a757bc4e1ed2",
+    "scripts/run_extension.py": "ef89dcbbfd8c66ae96a51dd841dee8d3488de5a9cfa6fef1194604ff1b8d53ec",
+    "scripts/validate_extension.py": "756a7bad0f932654fa9ac4769c5afefe4e240956e43744c33e292094dbef8e07",
+    "src/measurement_extension/__init__.py": "0d71926d0c3819be5b31f82323e784fc28a920d262028f847c6408804cf013e7",
+    "src/measurement_extension/analysis.py": "da2083f8405e4993d991381240d43389eab470fd32c6cdc9795484ee253b37e6",
+    "src/measurement_extension/covariance.py": "dd1b7fe6b6815b22d9a554864f262d737b198ff16b563e1ff11bf57caf339b50",
+    "src/measurement_extension/experiment.py": "73265f65173dafaba50220a88c719ad5fd41e5d656b4484ec1d0ac5f0529be48",
+    "src/measurement_extension/models.py": "54fac1941b457fd9eb3d95e1d2f192f3f0b82a8a060602604d8f0b6796b38824",
+    "src/qml_project/experiment.py": "727c7dbb3c1b0971163ce09b1991c7e31a99aa9f61801626c3c87815522a2ce4",
+    "src/qml_project/quantum.py": "6413926de3d39a434dd1dc79621efcf3c8d02b5b2633dfb63ed78e73305a1a00"
+  },
+  "config_file_sha256": "ee963c7a358443ed89568b37675fe73d6aa780648bbac51ed734f1bc4bb07ba8",
+  "evaluated_readouts": 5120,
+  "raw_acquisitions": 300,
+  "unique_simulated_shots": 45158400,
+  "accounting": "Shared acquisitions are counted once across methods, tasks, label conditions and validation candidates; the shot ledger is not QPU runtime.",
+  "novelty": "Adaptation of an existing covariance-regularized readout, not a new invention or full paper reproduction."
+}

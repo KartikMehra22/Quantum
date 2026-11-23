@@ -1,5 +1,36 @@
 # Finite-shot quantum feature regression
 
+## Measurement-aware extension (23 November)
+
+The project now also implements **DiagonalCov** and **FullCov** readouts, using an empirical measurement-noise penalty in addition to ridge shrinkage. This extension was evaluated separately on **20 fresh datasets**, with five acquisitions per dataset and **32 validation candidates per regularized method**. The original two-method study below remains intact.
+
+The result is mixed rather than a general improvement: FullCov has slightly worse primary clean-label mean MSE than the stronger Ridge baseline in five of six finite-shot settings and improves one by about 0.7%. Differences are small and are not presented as significant. The off-diagonal ablation also gives mixed outcomes. No test-based retuning was performed to force a win.
+
+- [Extension guide and viva explanation](docs/EXTENSION_GUIDE.md)
+- [Recorded evaluation protocol](docs/EXTENSION_PROTOCOL.md)
+- [All four-method numerical results](docs/EXTENSION_RESULTS.md)
+- Implementation: `src/measurement_extension/covariance.py`, `models.py`, `experiment.py`, `analysis.py`.
+- Evidence: `results/measurement_extension/verification.json`, `reproduction_verification.json`, raw counts and fitted coefficient/prediction arrays.
+- Figures: `figures/measurement_extension/`.
+
+With the project environment active, reproduce the extension using a fresh destination:
+
+```bash
+python scripts/run_extension.py --output results/extension_rerun
+python scripts/compare_extension_runs.py results/measurement_extension results/extension_rerun
+python scripts/audit_extension.py --deep-physics
+```
+
+To regenerate the four comparison figures and the technical results note:
+
+```bash
+python scripts/summarize_extension.py
+```
+
+The combined suite has **41 passing tests**. The extension's independent audit checks 5,120 evaluated readouts, all 124,160 validation-candidate fits, 300 training-noise covariance estimates reconstructed from expanded shots, and 4,480 quantum inputs. This is a new implementation/evaluation for the project, not an invented covariance-regularization method. Paper drafting remains deferred.
+
+## Original two-method semester baseline
+
 A completed, CPU-based semester experiment comparing **ordinary least squares (OLS)** and **validation-tuned ridge regression** on the same two-qubit measurement features. This is an empirical study of established methods, not a new quantum algorithm or a claim of quantum advantage.
 
 ## Start here

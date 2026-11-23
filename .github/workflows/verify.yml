@@ -15,3 +15,6 @@ jobs:
       - run: python scripts/deep_audit.py --deep-physics
       - run: python scripts/run_study.py --output results/ci_reproduction
       - run: python scripts/compare_runs.py results/semester results/ci_reproduction
+      - run: python scripts/audit_extension.py --deep-physics
+      - run: python scripts/run_extension.py --output results/ci_extension_reproduction
+      - run: python scripts/compare_extension_runs.py results/measurement_extension results/ci_extension_reproduction
