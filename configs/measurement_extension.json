@@ -78,7 +78,7 @@
     "ZZ"
   ],
   "test_target": "noiseless latent function; train and validation labels receive the configured independent Gaussian noise",
-  "aggregation": "average acquisition repetitions within each data seed before calculating mean and sample standard deviation over the five data seeds",
+  "aggregation": "Average acquisition repetitions within each dataset, then compute mean and sample SD over the 20 independent dataset means.",
   "methods": [
     "OLS",
     "Ridge",
