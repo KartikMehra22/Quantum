@@ -1,0 +1,70 @@
+{
+  "status": "passed",
+  "completed_utc": "2026-11-23T13:39:20.974377+00:00",
+  "source_commit": "be504b0d87d86917c264ef48bca2eb15fe64883e",
+  "python": "3.12.14",
+  "duration_seconds": 54.5187903749902,
+  "automated_tests": {
+    "tests": 54,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "steps": [
+    {
+      "name": "automated_tests",
+      "status": "passed",
+      "return_code": 0,
+      "duration_seconds": 11.582961334002903
+    },
+    {
+      "name": "original_independent_audit",
+      "status": "passed",
+      "return_code": 0,
+      "duration_seconds": 4.779473040995072
+    },
+    {
+      "name": "extension_independent_audit",
+      "status": "passed",
+      "return_code": 0,
+      "duration_seconds": 17.188218583003618
+    },
+    {
+      "name": "original_fresh_run",
+      "status": "passed",
+      "return_code": 0,
+      "duration_seconds": 1.5662631660088664
+    },
+    {
+      "name": "original_reproduction",
+      "status": "passed",
+      "return_code": 0,
+      "duration_seconds": 0.8184778330032714
+    },
+    {
+      "name": "extension_fresh_run",
+      "status": "passed",
+      "return_code": 0,
+      "duration_seconds": 14.52248816601059
+    },
+    {
+      "name": "extension_reproduction",
+      "status": "passed",
+      "return_code": 0,
+      "duration_seconds": 2.8027127499954076
+    },
+    {
+      "name": "four_method_refit_demo",
+      "status": "passed",
+      "return_code": 0,
+      "duration_seconds": 0.6556352500047069
+    },
+    {
+      "name": "new_input_prediction",
+      "status": "passed",
+      "return_code": 0,
+      "duration_seconds": 0.5445088749984279
+    }
+  ],
+  "scope": "Technical implementation, saved-model inference, original and extension audits, and fresh numerical reproduction. Does not claim a completed paper or general accuracy superiority."
+}
