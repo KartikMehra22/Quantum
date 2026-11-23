@@ -26,9 +26,9 @@ Fit mean training squared error + lambda*||w||^2 + gamma*w^T*C_scaled*w with an 
 
 ## Fixed tuning and fairness
 
-- Ridge: 32 logarithmically spaced lambdas from 1e-6 to 10.
+- Ridge: 32 unique lambdas, formed by 26 logarithmically spaced values from 1e-6 to 10 plus the original eight lambdas. Both endpoint duplicates are removed. This includes every gamma=0 covariance candidate.
 - Each covariance method: the original eight lambdas [1e-6,1e-5,1e-4,1e-3,1e-2,0.1,1,10] crossed with gamma [0,0.1,1,10], giving 32 candidates.
-- Each regularized method has the same number of validation candidates. Their model families and grid resolutions still differ; equal candidate counts are not proof of identical model-selection complexity. Both covariance methods use exactly the same grids.
+- Each regularized method has the same number of validation candidates. Their model families and grid resolutions still differ; equal candidate counts are not proof of identical model-selection complexity. Both covariance methods use exactly the same grids. A covariance model choosing gamma=0 cannot have a strictly better minimum validation loss than the richer Ridge grid except for numerical rounding; such choices are reported and never attributed to covariance.
 - Gamma=0 reduces the covariance model to Ridge at the same lambda, checked by tests. Ties prefer smaller gamma, then smaller lambda. Ridge ties prefer smaller lambda. No train+validation refit after selection.
 - Estimate covariance using training measurements only; no oracle covariance, validation counts or test counts feed the fitted penalty. Both baselines and new methods share the same raw records. All candidate fits are classical and require no extra simulated quantum shots.
 

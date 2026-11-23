@@ -8,6 +8,13 @@ from .covariance import covariance_of_means,scale_covariance
 METHODS=("OLS","Ridge","DiagonalCov","FullCov")
 
 
+def ridge_candidates(config):
+    search=config["ridge_search"]
+    # Include every gamma=0 covariance candidate; the baseline cannot lose
+    # merely because the alternative uses a different ridge-only grid.
+    return np.unique(np.r_[np.logspace(search["log10_min"],search["log10_max"],search["logspace_points"]),config["ridge_lambdas"]])
+
+
 @dataclass
 class Readout:
     weights: np.ndarray
@@ -40,8 +47,7 @@ def fit_methods(train,y,validation,y_validation,training_counts,config):
     models={}
     ordinary=LinearRegression().fit(z,y)
     models["OLS"]=Readout(ordinary.coef_.copy(),float(ordinary.intercept_),0.,0.,float(np.mean((ordinary.predict(v)-y_validation)**2)),1)
-    search=config["ridge_search"]
-    ridge_grid=np.logspace(search["log10_min"],search["log10_max"],search["n_candidates"])
+    ridge_grid=ridge_candidates(config)
     candidates=[]
     for lam in ridge_grid:
         model=Ridge(alpha=len(z)*lam,solver="svd").fit(z,y)

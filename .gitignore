@@ -13,5 +13,7 @@ tmp/
 /results/*
 !/results/semester/
 !/results/tests.xml
+!/results/extension_tests.xml
+!/results/measurement_extension/
 /figures/reproduction/
 

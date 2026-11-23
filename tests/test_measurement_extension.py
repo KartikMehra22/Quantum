@@ -5,9 +5,16 @@ import pytest
 from sklearn.linear_model import Ridge
 from sklearn.preprocessing import StandardScaler
 from measurement_extension.covariance import covariance_of_means,scale_covariance,SIGNS
-from measurement_extension.models import penalized_readout,fit_methods
+from measurement_extension.models import penalized_readout,fit_methods,ridge_candidates
 
 ROOT=Path(__file__).resolve().parents[1]
+
+
+def test_ridge_search_contains_all_zero_gamma_options_at_matched_budget():
+    config=json.loads((ROOT/"configs/measurement_extension.json").read_text())
+    grid=ridge_candidates(config)
+    assert len(grid)==32
+    assert set(config["ridge_lambdas"])<=set(grid)
 
 
 def test_covariance_from_counts_matches_expanded_shot_records():
@@ -70,3 +77,49 @@ def test_deterministic_outcomes_have_zero_covariance_and_wrong_training_count_fa
     config=json.loads((ROOT/"configs/measurement_extension.json").read_text())
     with pytest.raises(ValueError,match="training inputs"):
         fit_methods(np.ones((24,9)),np.ones(24),np.ones((12,9)),np.ones(12),counts[:12],config)
+
+
+def test_exact_reference_uses_zero_covariance_and_gamma_zero():
+    rng=np.random.default_rng(510)
+    train=rng.normal(size=(24,9));validation=rng.normal(size=(12,9))+4
+    config=json.loads((ROOT/"configs/measurement_extension.json").read_text())
+    scaler,cov,models=fit_methods(train,rng.normal(size=24),validation,rng.normal(size=12),None,config)
+    np.testing.assert_allclose(scaler.mean_,train.mean(axis=0))
+    np.testing.assert_array_equal(cov,0)
+    assert models["FullCov"].gamma==models["DiagonalCov"].gamma==0
+
+
+def test_extension_rejects_original_seeds_and_mismatched_search_budget():
+    import sys
+    sys.path.insert(0,str(ROOT/"scripts"))
+    from validate_extension import validate_extension
+    baseline=json.loads((ROOT/"configs/semester.json").read_text())
+    config=json.loads((ROOT/"configs/measurement_extension.json").read_text())
+    validate_extension(config,baseline)
+    config["data_seeds"][0]=11
+    with pytest.raises(ValueError,match="disjoint"):validate_extension(config,baseline)
+    config=json.loads((ROOT/"configs/measurement_extension.json").read_text())
+    config["ridge_search"]["n_candidates"]=8
+    with pytest.raises(ValueError,match="matched"):validate_extension(config,baseline)
+
+
+def test_extension_pipeline_and_independent_audit(tmp_path):
+    import subprocess
+    import sys
+    config=json.loads((ROOT/"configs/measurement_extension.json").read_text())
+    config.update(tasks=["sine"],label_noise_stds=[0],n_train=24,n_validation=12,n_test=16,
+                  data_seeds=[7001,7002],measurement_seeds=[7101],shots_per_setting=[8])
+    path=tmp_path/"config.json";path.write_text(json.dumps(config))
+    result=tmp_path/"run";figures=tmp_path/"figures";note=tmp_path/"results.md"
+    commands=[
+        ["run_extension.py","--config",str(path),"--output",str(result)],
+        ["summarize_extension.py","--results",str(result),"--figures",str(figures),"--note",str(note)],
+        ["audit_extension.py","--results",str(result),"--deep-physics"],
+    ]
+    for command in commands:
+        run=subprocess.run([sys.executable,str(ROOT/"scripts"/command[0]),*command[1:]],capture_output=True,text=True)
+        assert run.returncode==0,run.stdout+run.stderr
+    verification=json.loads((result/"verification.json").read_text())
+    assert verification["independent_model_evaluations"]==16
+    assert verification["expanded_training_covariances_checked"]==2
+    assert len(list(figures.glob("*.png")))==3
