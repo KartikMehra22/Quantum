@@ -28,16 +28,16 @@ Keep these distinctions clear throughout the viva:
 
 ## 3. Five-minute presentation script
 
-The saved deck has six slides including the cover. Use the short spoken explanations below; the longer sections are for questions.
+The saved deck has six slides including the cover. Its main slides use plain-language explanations, with equations kept in this guide and the speaker-note backups. Use the short spoken explanations below; `presentation/speaker_notes.txt` contains the current slide-by-slide script with separate “Say” and “If asked” sections.
 
 | Slide | Time | What to explain | Transition |
 |---|---:|---|---|
 | 1. Title | 25 seconds | Introduce Team Outliers and the project. State that we study measurement uncertainty in quantum-feature regression. | “First, what problem do limited measurements create?” |
-| 2. Problem and workflow | 45 seconds | A shot is one circuit execution and measurement. Limited shots give fluctuating feature estimates. The workflow is input, fixed circuit, measured features, classical readout. Ask whether uncertainty-aware regularization improves on Ridge. | “Here is the circuit and how we measured its output.” |
-| 3. Circuit and experiment | 60 seconds | Two qubits, fixed rotations and entangling gates. XX, YY and ZZ produce nine features. Budgets are 32, 128 or 512 shots **per setting**, so cost is 3S per input. Explain the two targets and the 64/32/128 split. Twenty datasets each have five acquisitions. | “We keep this measurement data identical across four readouts.” |
-| 4. Four readouts | 60 seconds | OLS has no penalty; Ridge shrinks weights; DiagonalCov uses individual feature variances; FullCov also uses shared fluctuations. The covariance and scaler use training data only. Validation selects penalties, with 32 candidates per regularized method. | “The held-out results determine whether that extra structure helps.” |
-| 5. Main results | 60 seconds | Lower MSE is better. The two panels have different vertical ranges. All four curves drop with shots and nearly overlap. These are means over twenty datasets after averaging acquisitions. SDs are in the report. | “To see the small method differences, we compare FullCov directly with Ridge.” |
-| 6. Outcome and future | 50 seconds | Positive bars favour FullCov. Only mixed harmonics at 512 shots improves, by 0.71%. State the limited scope and a future shrinkage experiment on fresh held-out data. | “Our conclusion is a reproducible, controlled evaluation with mixed findings.” |
+| 2. Why limited measurements matter | 45 seconds | A shot is one circuit execution and measurement. Limited shots give fluctuating feature estimates. The workflow is input, fixed circuit, measured features, classical readout. Ask whether uncertainty-aware regularization improves on Ridge. | “Here is the circuit and how we measured its output.” |
+| 3. Circuit and test setup | 60 seconds | Two qubits, fixed rotations and entangling gates. XX, YY and ZZ produce nine features. Budgets are 32, 128 or 512 shots **per setting**, so cost is 3S per input. Explain the two targets and the 64/32/128 split. Twenty datasets each have five acquisitions. | “We keep this measurement data identical across four readouts.” |
+| 4. Four ways to fit the same features | 60 seconds | OLS has no penalty; Ridge shrinks weights; DiagonalCov uses individual feature variances; FullCov also uses shared fluctuations. The covariance and scaler use training data only. Validation selects penalties, with 32 candidates per regularized method. | “The held-out results determine whether that extra structure helps.” |
+| 5. Results: more shots gave lower error | 60 seconds | Lower MSE is better. The two panels have different vertical ranges. All four curves drop with shots and nearly overlap. These are means over twenty datasets after averaging acquisitions. SDs are in the report. | “To see the small method differences, we compare FullCov directly with Ridge.” |
+| 6. What we learned | 50 seconds | Positive bars favour FullCov. Only mixed harmonics at 512 shots improves, by 0.71%. State the limited scope and a future shrinkage experiment on fresh held-out data. | “Our conclusion is a reproducible, controlled evaluation with mixed findings.” |
 
 Suggested speaking split: Kartik explains slides 1–3 and Viraj explains slides 4–6, **if both team members are comfortable with that division**. This is a presentation suggestion, not a record of who implemented which component. Both members should understand the complete pipeline.
 

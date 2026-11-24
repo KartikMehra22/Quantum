@@ -5,7 +5,7 @@ Six-slide presentation for 25 November 2026, titled **Measurement-Aware Regulari
 The final editable presentation is saved in the Codex/Spaces viewer delivered in the project chat. Open it and use the viewer's export/download option to obtain a PowerPoint `.pptx` for offline presentation. This repository does not contain an exported `.pptx` yet.
 
 - `deck_source.json`: native Artifact Tool presentation data, including text, editable chart data, table, cloud circuit asset reference and speaker notes. It is a native authoring snapshot, not a PowerPoint file. Reopening requires compatible Artifact Tool/session tooling. The circuit image uses a cloud library reference; outside the original session, rebind it to the preserved `figures/quantum_circuit.png`. The snapshot alone is not a self-contained offline deck.
-- `speaker_notes.txt`: spoken explanations for all six slides.
+- `speaker_notes.txt`: short, plain-language scripts for all six slides, followed by separate “If asked” technical backup notes. The main method table explains the four readouts without equations.
 - `../docs/PRESENTATION_AND_VIVA.md`: complete project explanation, timed script, definitions, mathematics, results, repository map, demo commands and viva questions.
 - `../output/pdf/outliers_ieee_report.pdf`: five-page IEEE report.
 
