@@ -1,6 +1,6 @@
 # Technical project completion
 
-The code and experiments are complete for the agreed semester scope. This handoff adds a runnable demonstration, saved-model inference and an end-to-end verification command. It intentionally does not include a final paper or presentation.
+The code and experiments are complete for the agreed semester scope. This handoff adds a runnable demonstration, saved-model inference and an end-to-end verification command. The subsequent submission handoff adds the [IEEE report](../output/pdf/outliers_ieee_report.pdf), [presentation materials](../presentation/README.md), and [complete presentation/viva guide](PRESENTATION_AND_VIVA.md).
 
 ## What is complete
 

@@ -2,7 +2,7 @@
 
 ## Technical completion and demonstration
 
-The implementation, two experimental studies, saved-model prediction and reproducibility tools are complete. The current suite has **54 passing tests**. No final paper or presentation is included in this technical handoff.
+The implementation, two experimental studies, saved-model prediction and reproducibility tools are complete. The current suite has **54 passing tests**. Submission materials are now included: a five-page IEEE report, native presentation source and speaker notes, and a complete presentation/viva guide.
 
 With the environment active, start here:
 
@@ -15,6 +15,16 @@ python scripts/verify_project.py
 The first command refits and checks all four readouts for one fixed recorded case. The second predicts at new inputs using a saved model and simulated feature measurements. The third runs the full suite, both independent scientific audits, fresh reproductions and inference demonstrations, then records the result in `results/project_verification.json`. Temporary reproductions are removed after comparison; canonical experiment data are preserved.
 
 See [technical completion and demo instructions](docs/TECHNICAL_COMPLETION.md) and [the four-method notebook](notebooks/02_measurement_aware_walkthrough.ipynb). New prediction inputs are restricted to the evaluated domain [-pi, pi]; this is not a deployment or quantum-advantage claim.
+
+## Presentation and submission materials (24 November)
+
+- [Five-page IEEE report](output/pdf/outliers_ieee_report.pdf)
+- [Editable LaTeX source](report/main.tex) and [build notes](report/README.txt)
+- [Presentation source and export guidance](presentation/README.md)
+- [Six-slide speaker notes](presentation/speaker_notes.txt)
+- [Complete presentation and viva guide](docs/PRESENTATION_AND_VIVA.md): timed script, definitions, mathematics, results, code locations, runnable demo, literature boundaries and likely questions.
+
+The editable deck is saved in the presentation viewer delivered in the project chat; export it there as PowerPoint for offline use. The repository contains its native authoring snapshot, not an exported `.pptx`. Enrollment numbers are limited to the presentation material and excluded from the report and viva guide.
 
 ## Measurement-aware extension (23 November)
 
@@ -43,7 +53,7 @@ To regenerate the four comparison figures and the technical results note:
 python scripts/summarize_extension.py
 ```
 
-The original extension was checked with 41 tests; the current full suite has **54 tests**, including saved-model inference and walkthrough checks. The extension's independent audit checks 5,120 evaluated readouts, all 124,160 validation-candidate fits, 300 training-noise covariance estimates reconstructed from expanded shots, and 4,480 quantum inputs. This is a new implementation/evaluation for the project, not an invented covariance-regularization method. Paper drafting remains deferred.
+The original extension was checked with 41 tests; the current full suite has **54 tests**, including saved-model inference and walkthrough checks. The extension's independent audit checks 5,120 evaluated readouts, all 124,160 validation-candidate fits, 300 training-noise covariance estimates reconstructed from expanded shots, and 4,480 quantum inputs. This is a new implementation/evaluation for the project, not an invented covariance-regularization method. The final submission materials are linked above.
 
 ## Original two-method semester baseline
 
@@ -112,7 +122,7 @@ python scripts/make_figures.py
 python scripts/summarize_results.py
 ```
 
-Paper preparation is intentionally deferred. This repository focuses on the implementation, preserved results and verification.
+The implementation and preserved results are accompanied by the submission materials linked above.
 
 ## Important interpretation
 

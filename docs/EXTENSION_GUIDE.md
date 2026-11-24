@@ -88,4 +88,4 @@ Checks cannot establish general scientific validity, significance or absence of 
 - **Is the project still useful with negative results?** It demonstrates implementation, mathematical verification, fair comparison and the boundary of an existing method in this setting.
 - **What comes next?** A separately designed study with more robust validation, other feature maps or matched reproduction of one reference. Any design chosen after these results needs a new evaluation, not test-set reuse.
 
-Paper drafting remains deferred.
+The submission now includes the [IEEE report](../output/pdf/outliers_ieee_report.pdf), [presentation materials](../presentation/README.md), and [complete presentation/viva guide](PRESENTATION_AND_VIVA.md).

@@ -1,5 +1,7 @@
 # Explaining the semester project
 
+For the complete current submission, use [PRESENTATION_AND_VIVA.md](PRESENTATION_AND_VIVA.md).
+
 The project now has a four-method extension. Use `EXTENSION_GUIDE.md` for the current pitch, method comparison and fresh-seed results. The material below explains the preserved original two-method baseline.
 
 ## A 45-second explanation

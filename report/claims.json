@@ -1,0 +1,12 @@
+{
+  "clean_wins": 1,
+  "clean_conditions": 6,
+  "ablation_wins": 3,
+  "noisy_wins": 4,
+  "best_clean_reduction_percent": 0.7106356760103321,
+  "gamma_zero_min_percent": 43.0,
+  "gamma_zero_max_percent": 56.99999999999999,
+  "evaluated_readouts": 5120,
+  "independent_datasets": 20,
+  "acquisitions_per_dataset": 5
+}
