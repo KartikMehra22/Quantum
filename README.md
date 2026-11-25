@@ -2,7 +2,7 @@
 
 ## Technical completion and demonstration
 
-The implementation, two experimental studies, saved-model prediction and reproducibility tools are complete. The current suite has **54 passing tests**. Submission materials are now included: a five-page IEEE report, native presentation source and speaker notes, and a complete presentation/viva guide.
+The implementation, two experimental studies, saved-model prediction and reproducibility tools are complete. The core study has **54 tests**, with **four additional optional Qiskit checks**. Submission materials are now included: a five-page IEEE report, native presentation source and speaker notes, and a complete presentation/viva guide.
 
 With the environment active, start here:
 
@@ -15,6 +15,18 @@ python scripts/verify_project.py
 The first command refits and checks all four readouts for one fixed recorded case. The second predicts at new inputs using a saved model and simulated feature measurements. The third runs the full suite, both independent scientific audits, fresh reproductions and inference demonstrations, then records the result in `results/project_verification.json`. Temporary reproductions are removed after comparison; canonical experiment data are preserved.
 
 See [technical completion and demo instructions](docs/TECHNICAL_COMPLETION.md) and [the four-method notebook](notebooks/02_measurement_aware_walkthrough.ipynb). New prediction inputs are restricted to the evaluated domain [-pi, pi]; this is not a deployment or quantum-advantage claim.
+
+## Qiskit circuit demonstration
+
+An independent Qiskit implementation of the same fixed circuit is available in [src/qiskit_demo/circuit.py](src/qiskit_demo/circuit.py), with a [runnable example](scripts/qiskit_circuit.py) and [setup/bit-ordering guide](docs/QISKIT_CIRCUIT.md).
+
+```bash
+uv pip install --python .venv/bin/python -r requirements-qiskit.txt
+.venv/bin/python scripts/qiskit_circuit.py --x 0.5 --shots 128 --seed 42 --check
+.venv/bin/python -m pytest -q tests/test_qiskit_circuit.py
+```
+
+This additional CPU sampler example supports XX, YY and ZZ measurements and correctly converts Qiskit's bit ordering to the original project convention. It does not replace the original experimental implementation, regenerate recorded scores or claim hardware execution. The four additional tests are skipped when the optional Qiskit dependency is absent. The report's 54-test count refers to the original recorded scientific verification.
 
 ## Presentation and submission materials (24 November)
 

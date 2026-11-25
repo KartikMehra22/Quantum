@@ -1,0 +1,2 @@
+# Optional circuit demonstration; install alongside the project environment.
+qiskit==2.6.2
