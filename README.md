@@ -30,7 +30,7 @@ This additional CPU sampler example supports XX, YY and ZZ measurements and corr
 
 ## Presentation and submission materials (24 November)
 
-- [Five-page IEEE report](output/pdf/outliers_ieee_report.pdf)
+- [Five-page IEEE conference-style manuscript](output/pdf/outliers_ieee_report.pdf)
 - [Editable LaTeX source](report/main.tex) and [build notes](report/README.txt)
 - [Presentation source and export guidance](presentation/README.md)
 - [Six-slide speaker notes](presentation/speaker_notes.txt)

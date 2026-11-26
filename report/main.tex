@@ -3,21 +3,23 @@
 \usepackage{amsmath,amssymb}
 \usepackage{graphicx}
 \usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Measurement-Aware Regularization in Finite-Shot Quantum Feature Regression},
+  pdfauthor={Kartik Mehra and Viraj Chafale}}
 \graphicspath{{assets/}}
 \input{numbers.tex}
 
 \title{Measurement-Aware Regularization in Finite-Shot Quantum Feature Regression}
 \author{\IEEEauthorblockN{Kartik Mehra}
-\IEEEauthorblockA{Team Outliers\\kartik.mehra2024@nst.rishihood.edu.in}
+\IEEEauthorblockA{kartik.mehra2024@nst.rishihood.edu.in}
 \and
 \IEEEauthorblockN{Viraj Chafale}
-\IEEEauthorblockA{Team Outliers\\viraj.chafale2024@nst.rishihood.edu.in}}
+\IEEEauthorblockA{viraj.chafale2024@nst.rishihood.edu.in}}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-Quantum features estimated using finite measurement shots contain sampling uncertainty even without device errors. This semester project implements a fixed two-qubit feature map and investigates whether classical readout regularization improves prediction under limited measurements. An initial ordinary least squares and Ridge comparison is extended with diagonal and full within-setting covariance penalties estimated from training measurements. The extension evaluates two synthetic targets at 32, 128 and 512 shots per setting on twenty fresh datasets, with five acquisitions per dataset and 32 validation candidates per regularized method. Full covariance regularization improves the primary clean-label mean error relative to Ridge in only \CleanWins{} of six finite-shot settings, by approximately \BestReduction{}\% in that setting. The off-diagonal ablation and a separate noisy-label analysis also give mixed outcomes. Independent numerical audits and 54 automated tests check the implementation and saved results. The contribution is a reproducible adaptation and controlled evaluation of established methods, including negative findings; no new algorithm, general superiority or quantum advantage is claimed.
+Finite-shot quantum measurements produce uncertain features even in the absence of device errors. We evaluate whether empirical measurement-covariance penalties improve the generalization of fixed quantum-feature regression beyond Ridge regularization. A two-qubit feature map supplies nine observable features, and training measurements determine either a diagonal or full within-setting covariance penalty. Ordinary least squares, Ridge and the two covariance-aware readouts are compared on two synthetic targets at 32, 128 and 512 shots per setting. The evaluation uses twenty independent datasets, five acquisitions per dataset and 32 validation candidates per regularized method. Full covariance regularization yields lower clean-label mean test error than Ridge in \CleanWins{} of six finite-shot conditions, with a relative reduction of \BestReduction{}\% in that condition. Retaining off-diagonal covariance improves on the diagonal penalty in \AblationWins{} of six conditions. A separate noisy-label sensitivity analysis also gives mixed outcomes. These findings show that estimated measurement covariance does not consistently improve prediction over a validation-tuned Ridge baseline within the evaluated feature map and tasks.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -27,33 +29,33 @@ quantum machine learning, finite-shot measurements, quantum features, Ridge regr
 \section{Introduction}
 Quantum circuits can transform a classical input into features for a machine-learning model. These features are usually expectation values estimated from repeated measurements, called shots. With a finite number of shots, the estimates fluctuate even when the circuit has no device errors. Previous studies examine how this sampling uncertainty affects learning and how its influence can be reduced~\cite{kreplin,hu2023}.
 
-We were interested in whether knowing more about measurement uncertainty could improve predictions. Taking more shots can improve feature estimates, but it also increases the measurement budget. We therefore examined whether information already available in the measurement records could help a classical regression readout.
+Increasing the shot count improves the precision of individual feature estimates but increases the measurement budget. An alternative is to use uncertainty information already present in the measurement records when fitting the classical readout. The relevant empirical question is whether this information improves held-out prediction beyond conventional coefficient shrinkage.
 
-Ridge regression shrinks the fitted weights without explicitly using an estimated measurement-noise covariance in its penalty. A covariance-aware penalty can also account for unequal feature uncertainties and fluctuations shared by features from the same shots. This principle already appears in the literature~\cite{baumann}. Rather than assuming that it would help, we compared it with a well-tuned Ridge baseline under the same measurement budgets.
+Ridge regression shrinks the fitted weights without explicitly using an estimated measurement-noise covariance in its penalty. A covariance-aware penalty can also account for unequal feature uncertainties and fluctuations shared by features from the same shots. This principle already appears in the literature~\cite{baumann}. We assess its predictive value against a validation-tuned Ridge baseline under matched measurement budgets.
 
-The project uses a fixed two-qubit circuit and four classical readouts. A diagonal version of the covariance penalty tests whether keeping the off-diagonal correlations adds value. The circuit, raw measurements and fitted predictions are preserved so that the comparison can be checked. Only the classical readout is trained; the quantum gates remain fixed.
+We conduct a controlled comparison of four classical readouts on a fixed two-qubit feature map. A diagonal covariance ablation tests the contribution of within-setting correlations, and a separately reported label-noise condition assesses sensitivity to imperfect targets. The evaluation separates dataset variation from measurement variation and uses training-only covariance estimation and validation-only penalty selection. Only the classical readout is trained; the quantum gates remain fixed.
 
-\section{Literature Review}
-Kreplin and Roth~\cite{kreplin} introduce variance regularization for trainable quantum neural networks. Their investigated models reduce measured output noise by explicitly including variance in training. Our coefficient and covariance penalties operate on a fixed feature map and do not reproduce their trainable-circuit procedure or reported reduction factors.
+\section{Related Work}
+Kreplin and Roth~\cite{kreplin} introduce variance regularization for trainable quantum neural networks. Their models include output variance in the training objective. In contrast, the present evaluation keeps the feature map fixed and regularizes only the classical readout.
 
-Hu et al.~\cite{hu2023} characterize the learning capacity of sampled physical systems and introduce eigentasks that distinguish feature combinations by signal and noise properties. Hu and Gao~\cite{hu2024} analyse finite datasets together with finite measurement shots. These studies motivate noise-aware representations and careful generalization analysis. Eigentask learning and their analytical formulas are not implemented or validated here.
+Hu et al.~\cite{hu2023} characterize the learning capacity of sampled physical systems and introduce eigentasks that distinguish feature combinations by signal and noise properties. Hu and Gao~\cite{hu2024} analyse finite datasets together with finite measurement shots. These studies motivate noise-aware representations and careful generalization analysis. The present readout uses an empirical quadratic covariance penalty rather than an eigentask transformation.
 
-Lo Monaco et al.~\cite{shots} identify a finite-shot instability in a quantum linear-regression setting where sampling populates directions absent from ideal feature vectors. Their subsequent preprint~\cite{triple} incorporates explicit Ridge regularization when analysing prediction-error structure. Our local-observable features, fixed dimensionality and sample count are different. The experiment does not demonstrate their noise-only direction mechanism or a triple-descent law.
+Lo Monaco et al.~\cite{shots} identify a finite-shot instability in a quantum linear-regression setting where sampling populates directions absent from ideal feature vectors. Their subsequent preprint~\cite{triple} incorporates explicit Ridge regularization when analysing prediction-error structure. Our local-observable representation has fixed feature dimension and training size, and therefore addresses a different experimental regime from their interpolation and triple-descent analyses.
 
-Baumann et al.~\cite{baumann} examine alternative organizations of a shared measurement record and describe covariance-regularized expectation-value training, Cov-EV, as a control. Their analysis relates grouped linear-readout training to a quadratic covariance penalty. This is the closest methodological precedent for the extension. We use a two-qubit static regression setup rather than their forecasting pipeline, so numerical errors cannot be compared directly.
+Baumann et al.~\cite{baumann} examine alternative organizations of a shared measurement record and describe covariance-regularized expectation-value training, Cov-EV, as a control. Their analysis relates grouped linear-readout training to a quadratic covariance penalty. This is the closest methodological precedent for the covariance-aware readouts evaluated here. We use a two-qubit static regression setup rather than their forecasting pipeline, so numerical errors cannot be compared directly.
 
-We analysed the outputs of all four readouts and compared the methods with the cited research, focusing on their objectives, measurement assumptions and evaluation settings. This comparison provides context for our results; it is not a numerical reproduction of the papers. The implementation uses scikit-learn Ridge~\cite{sklearn} and an independent PennyLane circuit check~\cite{pennylane}. The arXiv-only works are cited as preprints.
+The present evaluation examines these established regularization principles in a fixed local-observable representation. Differences in feature maps and tasks prevent direct numerical comparisons with the cited studies. Scikit-learn~\cite{sklearn} supplies the Ridge solver, while PennyLane~\cite{pennylane} provides an independent check of the circuit probabilities.
 
-\section{Problem Statement and Objectives}
-Ridge regression performs weight shrinkage, but its penalty does not explicitly use the estimated covariance of measurement noise. Our question is whether adding the estimated variances and correlations of quantum feature measurements improves predictions on unseen inputs. This concerns uncertainty at a fixed input, rather than the covariance of feature values across different inputs.
+\section{Research Question}
+Ridge regression performs weight shrinkage, but its penalty does not explicitly use the estimated covariance of measurement noise. We ask whether adding the estimated variances and correlations of quantum feature measurements improves prediction on unseen inputs. This concerns uncertainty at a fixed input, rather than the covariance of feature values across different inputs.
 
 We compare FullCov with Ridge using clean-label finite-shot test MSE as the primary outcome. Comparing FullCov with DiagonalCov isolates the effect of retaining off-diagonal measurement-noise terms. A separate noisy-label condition checks sensitivity to imperfect training and validation targets.
 
-The objectives are to construct features from joint measurement outcomes, estimate their measurement covariance using training records, fit four readouts with validation-only penalty selection, and check the saved predictions and statistics independently. Whether the covariance penalty improves accuracy is determined by the results.
+All four readouts use identical joint measurement records. Covariance estimation and feature standardization use training inputs only, and validation error selects the regularization strengths. Independent numerical reconstruction checks the resulting predictions and summary statistics.
 
-\section{Methodology}
+\section{Methods}
 \subsection{Circuit and Feature Construction}
-The circuit starts in $|00\rangle$. In order, it applies $R_y(x)$ and $R_z(0.4x)$ to qubit 0; $R_y(2x+0.3)$ and $R_z(-0.7x)$ to qubit 1; CNOT$(0,1)$; $R_y(0.7)$ to qubit 0; $R_y(-0.4)$ and $R_z(0.2)$ to qubit 1; and CZ$(0,1)$. These constants are not optimized or selected using test error (Fig.~\ref{fig:circuit}).
+We construct a fixed two-qubit feature map for this controlled evaluation. The circuit starts in $|00\rangle$. In order, it applies $R_y(x)$ and $R_z(0.4x)$ to qubit 0; $R_y(2x+0.3)$ and $R_z(-0.7x)$ to qubit 1; CNOT$(0,1)$; $R_y(0.7)$ to qubit 0; $R_y(-0.4)$ and $R_z(0.2)$ to qubit 1; and CZ$(0,1)$. The gate constants are fixed before evaluation; no circuit training, architecture search or test-based selection is performed (Fig.~\ref{fig:circuit}).
 
 Three independent settings measure both qubits in X, Y and Z. Each returns two single-qubit estimates and their pair product, giving
 \begin{equation}
@@ -82,7 +84,7 @@ For a fixed input and setting, let $m=S^{-1}\sum_s v_s$. The unbiased sample cov
 \end{equation}
 The four joint counts suffice to reconstruct the sums in (\ref{eq:covariance}); additional shots are unnecessary. This covariance measures uncertainty at a fixed input, not variation of features across different inputs.
 
-Independent setting acquisitions give a block-diagonal $9\times9$ noise matrix. Average these matrices over training inputs only. If training-only standardization uses diagonal scale matrix D, propagate uncertainty as $\widehat C_z=D^{-1}\overline C D^{-1}$. FullCov retains the three within-setting blocks; DiagonalCov removes their off-diagonal terms. Numerical eigenvalues below zero but above $-10^{-12}$ are clipped to zero; more negative values are treated as an implementation error.
+Independent setting acquisitions give a block-diagonal $9\times9$ noise matrix. Average these matrices over training inputs only. If training-only standardization uses diagonal scale matrix D, propagate uncertainty as $\widehat C_z=D^{-1}\overline C D^{-1}$. FullCov retains the three within-setting blocks; DiagonalCov removes their off-diagonal terms. Numerical eigenvalues below zero but above $-10^{-12}$ are clipped to zero; more negative values fail the numerical validity check.
 
 \subsection{Readout Models}
 For standardized features z, predictions are
@@ -110,17 +112,17 @@ $\downarrow$\\[3pt]
 $\downarrow$\\[3pt]
 \fbox{\parbox{0.85\columnwidth}{\centering Fit candidates; select penalties on validation data}}\\[3pt]
 $\downarrow$\\[3pt]
-\fbox{\parbox{0.85\columnwidth}{\centering Held-out predictions, paired summaries and audit}}
+\fbox{\parbox{0.85\columnwidth}{\centering Held-out predictions and paired error summaries}}
 \end{tabular}
 \caption{Evaluation workflow. Both baselines and covariance methods share the same measurements. Test targets do not select parameters.}
 \label{fig:workflow}
 \end{figure}
 
-\section{Experimental Design}
-\subsection{Original Baseline and Fresh Extension}
-The preserved initial study compares OLS and Ridge on five datasets. Its 600 finite-shot and 40 exact-feature evaluations use eight Ridge candidates. Its results motivated an extension, but they are not pooled with the new study.
+\section{Experimental Protocol}
+\subsection{Tasks and Data}
+An exploratory OLS/Ridge comparison on five datasets preceded the four-readout evaluation. Its outcomes are kept separate and are not pooled with the primary results. The evaluation protocol was recorded before assessing twenty independently generated datasets using seeds 1001--1020, with acquisition seeds 2101--2105 disjoint from the exploratory study. This is a fixed internal protocol, not an external preregistration. No penalty was selected using held-out test error.
 
-The extension protocol was recorded before evaluating fresh dataset seeds 1001--1020 and acquisition seeds 2101--2105. These are disjoint from the original seeds. No method or penalty was selected using the new test results. Both phases use $x\sim\mathcal U[-\pi,\pi]$, with targets
+Inputs are sampled independently as $x\sim\mathcal U[-\pi,\pi]$, with targets
 \begin{equation}
 f_1(x)=\sin x,\qquad f_2(x)=\sin(2x)+0.3\cos(3x).
 \end{equation}
@@ -129,30 +131,27 @@ Each dataset has 64 training, 32 validation and 128 test inputs. The primary con
 Shots per setting are 32, 128 and 512. Training, validation and test use the same budget within a condition and separate acquisitions. Exact simulator features provide diagnostic references with zero measurement covariance. They are not a free physical measurement method.
 
 \subsection{Selection and Fairness}
-StandardScaler is fitted only to training features. Covariance uses only training counts. Ridge searches 32 unique lambdas: 26 logarithmically spaced values from $10^{-6}$ to 10 plus the original eight values, removing duplicate endpoints. Thus it includes every Ridge-only option available to the new methods.
+StandardScaler is fitted only to training features. Covariance uses only training counts. Ridge searches 32 unique lambdas: the union of 26 logarithmically spaced values from $10^{-6}$ to 10 and the eight-value grid used by the covariance readouts, with duplicate endpoints removed. Thus it includes every Ridge-only option available to those readouts.
 
-Each covariance method searches the original eight lambdas crossed with $\gamma\in\{0,0.1,1,10\}$, also 32 candidates. Minimum validation MSE selects the fit. Ties prefer smaller gamma, then smaller lambda; Ridge ties prefer smaller lambda. There is no train-plus-validation refit. Scikit-learn's summed-loss convention uses $\alpha=n_{\rm tr}\lambda$.
+Each covariance method crosses eight logarithmically spaced lambda values from $10^{-6}$ to 10 with $\gamma\in\{0,0.1,1,10\}$, also giving 32 candidates. Minimum validation MSE selects the fit. Ties prefer smaller gamma, then smaller lambda; Ridge ties prefer smaller lambda. There is no train-plus-validation refit. Scikit-learn's summed-loss convention uses $\alpha=n_{\rm tr}\lambda$.
 
 Equal candidate counts control one source of computational imbalance, but do not make the model families equally complex. The covariance grids have a coarser lambda resolution and an extra selection dimension. Both covariance models share identical grids, making the diagonal/full ablation particularly informative. At zero covariance their selected fits can differ from the finer Ridge grid for selection reasons unrelated to measurement covariance.
 
 \subsection{Outcomes and Uncertainty}
 The primary metric is held-out MSE. Coefficient norms, selected penalties and gamma-zero frequencies are diagnostics. Five acquisitions are averaged within each dataset before calculating the mean and sample SD across twenty dataset means. For paired contrasts, the reference-minus-candidate error difference is formed on shared records and similarly aggregated. Positive differences favour the candidate. SDs describe dispersion; they are not confidence intervals, and no statistical-significance claim is made.
 
-The extension records 4,800 finite-shot and 320 exact-reference readouts. Internal tuning involves 124,160 candidate fits, including OLS. These are not independent datasets. The 300 unique acquisitions cost
+The evaluation comprises 4,800 finite-shot and 320 exact-reference readouts. Internal tuning involves 124,160 candidate fits, including OLS. These are not independent datasets. The 300 unique acquisitions cost
 \begin{equation}
 B=20\cdot5\cdot224\cdot3\cdot(32+128+512)=45{,}158{,}400
 \end{equation}
 simulated executions. Records are reused across methods, tasks, label conditions and tuning. Multinomial count generation does not physically execute this many circuits; B is a resource ledger, not a QPU runtime estimate.
 
 \section{Results}
-\subsection{Original Study}
-In the initial clean-label study, higher shots reduce mean MSE for both models on both targets. Ridge improves five of six finite-shot task/budget means, but worsens mixed harmonics at 32 shots. These observations do not establish significance. The extension uses different data and a stronger Ridge search, so changes from the original mean errors cannot be attributed solely to the new methods.
-
-\subsection{Fresh Clean-Label Evaluation}
+\subsection{Primary Clean-Label Evaluation}
 Table~\ref{tab:clean} and Fig.~\ref{fig:mse} show that more shots reduce mean error for all four methods on both targets in this evaluation. Differences between the readouts are small compared with the measurement-budget effect.
 
 \begin{table*}[t]
-\caption{Fresh clean-label test MSE, mean $\pm$ sample SD over twenty dataset means. Each finite-shot dataset mean averages five acquisitions. Exact references have one fit per dataset.}
+\caption{Clean-label test MSE, mean $\pm$ sample SD over twenty dataset means. Each finite-shot dataset mean averages five acquisitions. Exact references have one fit per dataset.}
 \label{tab:clean}\centering
 \resizebox{0.99\textwidth}{!}{\input{results_clean.tex}}
 \end{table*}
@@ -163,43 +162,36 @@ These results do not establish a reliable accuracy improvement from covariance-a
 
 \begin{figure*}[t]
 \centering\includegraphics[width=0.94\textwidth]{extension_mse.pdf}
-\caption{Fresh clean-label test MSE for four methods. The curves nearly overlap; error bars show sample SD across dataset-level acquisition means.}
+\caption{Clean-label test MSE for four methods. The curves nearly overlap; error bars show sample SD across dataset-level acquisition means.}
 \label{fig:mse}
 \end{figure*}
 
 \subsection{Diagonal Ablation and Penalty Selection}
 FullCov has lower primary mean MSE than DiagonalCov in \AblationWins{} of six finite-shot settings. Retaining off-diagonal noise terms therefore does not produce a consistent benefit in this setup. FullCov selects $\gamma=0$ in approximately \GammaZeroMin{}--\GammaZeroMax{}\% of individual primary dataset/acquisition fits, depending on task and shot budget. Such choices switch off the covariance penalty and are not evidence that covariance helped.
 
-
-
-
-
 \subsection{Separate Noisy-Label Sensitivity}
 With training/validation label-noise SD 0.1, FullCov improves the finite-shot mean relative to Ridge in \NoisyWins{} of six settings, with small and mixed differences. Test targets remain noiseless. Exact-reference differences are unrelated to covariance because its value is zero. This sensitivity analysis does not reverse the primary conclusion.
 
-\section{Verification and Reproducibility}
-The combined suite has 54 passing automated tests. Covariance checks compare the weighted-count formula with explicitly expanded shot records, verify its expectation against a known distribution, and test symmetry, positive semidefiniteness, block structure and scaling. Further tests check the unpenalized intercept, gamma-zero Ridge equivalence, diagonal/full equality for diagonal noise, training-only preprocessing, invalid configuration rejection and full alternate-configuration execution.
+\section{Numerical Validation}
+The measurement-covariance estimator is checked against explicitly expanded shot records and its theoretical expectation. Additional checks assess symmetry, positive semidefiniteness, block structure, covariance scaling, the unpenalized intercept and equivalence to Ridge when $\gamma=0$.
 
-An independent audit reconstructs all 300 training covariance estimates from expanded shots and refits all 124,160 candidates using augmented least squares rather than the production normal-equation solver. It checks all 5,120 saved readouts, coefficients, intercepts, scalers and prediction vectors, along with 64 summary groups and 64 paired contrasts. A separately expressed PennyLane circuit checks the probabilities at all 4,480 extension inputs. The original study also continues to pass its audit unchanged.
+An independent reconstruction checks all 300 training covariance estimates and refits all 124,160 candidates using augmented least squares rather than the primary normal-equation solver. It checks the coefficients, intercepts, scalers and test predictions of all 5,120 evaluated readouts, together with 64 summary groups and 64 paired contrasts. An independently expressed PennyLane circuit checks the probabilities at all 4,480 evaluation inputs. A separate rerun checks metrics and fitted arrays with absolute tolerance $10^{-12}$ and relative tolerance $10^{-10}$; integer counts remain exact.
 
-A fresh local run reproduces all extension metrics and fitted arrays; Linux verification also passes within stated floating-point tolerances. Integer counts and saved-file checksums remain exact. Passing checks does not exclude every possible scientific or implementation limitation.
-
-The recorded environment uses Python 3.12.14, NumPy 2.3.5, SciPy 1.16.3, scikit-learn 1.7.2 and PennyLane 0.43.1. All experiments run on a CPU; a GPU or quantum processor is unnecessary for this simulation.
-
-Raw measurements, fitted arrays, source snapshots and verification records are preserved in the project repository~\cite{repo}.
+The recorded environment uses Python 3.12.14, NumPy 2.3.5, SciPy 1.16.3, scikit-learn 1.7.2 and PennyLane 0.43.1. Experiments use CPU-based statevector simulation and multinomial sampling; no physical quantum processor is used.
 
 \section{Discussion and Limitations}
 The experiment supports a limited conclusion: measurement-aware covariance penalties do not reliably improve this fixed two-qubit readout beyond the selected Ridge baseline. It does not show that such methods are ineffective generally, nor contradict results from different forecasting or trainable-circuit settings.
 
 Possible limitations include estimation error in the penalty, only 32 validation inputs, the extra gamma-selection dimension and a competitive baseline. These are hypotheses rather than experimentally isolated causes of each failure. The diagonal/full comparison itself is mixed, which limits claims about the benefit of measured correlations.
 
-The study uses two synthetic one-dimensional targets, one circuit, one split size and twenty independent dataset realizations in the extension. It includes no device errors, learned circuit, adaptive shot allocation or physical processor. No matched comparison of classical and quantum feature families is performed, so quantum advantage is not evaluated. The exact-feature reference remains diagnostic rather than a hardware procedure. The original study's full-rank local-feature matrices and the absence of an outcome-dimension sweep also prevent claims to reproduce the cited interpolation mechanisms.
+The study uses two synthetic one-dimensional targets, one circuit, one split size and twenty independent dataset realizations. It includes no device errors, learned circuit, adaptive shot allocation or physical processor. No matched comparison of classical and quantum feature families is performed, so quantum advantage is not evaluated. The exact-feature reference remains diagnostic rather than a hardware procedure. The fixed feature dimension and absence of an outcome-dimension sweep also prevent claims to reproduce the cited interpolation mechanisms.
 
 Future work could evaluate alternative feature maps, more robust validation or a carefully matched reproduction of one reference. Designs chosen after examining these results require a new held-out evaluation. Covariance shrinkage or eigentask controls would be separately implemented and verified, not claimed as completed here.
 
 \section{Conclusion}
-This semester project implements a reproducible quantum-feature regression pipeline, extends it with training-measurement covariance penalties, and compares four readouts on fresh data under matched shot budgets. More shots improve average prediction performance in the tested settings. Full covariance regularization improves only one of six primary task/budget means and does not consistently beat its diagonal ablation. The contribution is a verified implementation and controlled assessment with preserved failure cases, not a new algorithm or guaranteed accuracy improvement.
+We evaluated empirical measurement-covariance regularization for a fixed two-qubit regression feature map. Under matched shot budgets and validation-candidate counts, full covariance regularization lowered primary mean test error relative to Ridge in only one of six task/budget conditions and improved on its diagonal ablation in three. Increasing the shot budget reduced mean prediction error more substantially than changing the readout penalty in the evaluated settings. The results indicate that a more detailed measurement-noise penalty does not automatically yield better generalization. Broader feature maps, stronger model-selection controls and fresh held-out evaluations are needed to determine when such penalties provide a reliable benefit.
 
+\IEEEtriggeratref{3}
 \begin{thebibliography}{00}
 \bibitem{kreplin} D. A. Kreplin and M. Roth, ``Reduction of finite sampling noise in quantum neural networks,'' \textit{Quantum}, vol. 8, Art. no. 1385, 2024, doi: 10.22331/q-2024-06-25-1385.
 \bibitem{hu2023} F. Hu et al., ``Tackling sampling noise in physical systems for machine learning applications: Fundamental limits and eigentasks,'' \textit{Phys. Rev. X}, vol. 13, Art. no. 041020, 2023, doi: 10.1103/PhysRevX.13.041020.
@@ -207,8 +199,7 @@ This semester project implements a reproducible quantum-feature regression pipel
 \bibitem{hu2024} F. Hu and X. Gao, ``Generalization error in quantum machine learning in the presence of sampling noise,'' arXiv:2410.14654, 2024, preprint. [Online]. Available: \url{https://arxiv.org/abs/2410.14654}
 \bibitem{shots} G. Lo Monaco et al., ``Who can sample forever? Shot noise effects in quantum linear regression,'' arXiv:2610.12015, 2026, preprint. [Online]. Available: \url{https://arxiv.org/abs/2610.12015}
 \bibitem{triple} G. Lo Monaco et al., ``Triple descent in quantum linear regression,'' arXiv:2611.00272, 2026, preprint. [Online]. Available: \url{https://arxiv.org/abs/2611.00272}
-\bibitem{sklearn} Scikit-learn developers, ``Ridge,'' software documentation, accessed Nov. 23, 2026. [Online]. Available: \url{https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Ridge.html}
-\bibitem{pennylane} PennyLane developers, ``Default qubit,'' software documentation, accessed Nov. 23, 2026. [Online]. Available: \url{https://docs.pennylane.ai/en/stable/code/api/pennylane.devices.default_qubit.html}
-\bibitem{repo} K. Mehra, ``Quantum: Finite-shot quantum feature regression,'' project repository, 2026. [Online]. Available: \url{https://github.com/KartikMehra22/Quantum}
+\bibitem{sklearn} F. Pedregosa et al., ``Scikit-learn: Machine learning in Python,'' \textit{J. Mach. Learn. Res.}, vol. 12, pp. 2825--2830, 2011.
+\bibitem{pennylane} V. Bergholm et al., ``PennyLane: Automatic differentiation of hybrid quantum-classical computations,'' arXiv:1811.04968, 2018, preprint. [Online]. Available: \url{https://arxiv.org/abs/1811.04968}
 \end{thebibliography}
 \end{document}
